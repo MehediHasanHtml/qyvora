@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm --version)",
+      "Bash(mv D:/mehedi/CLAUDE.md D:/CLAUDE.md.bak && ls D:/mehedi/)",
+      "Bash(rm -rf .next)",
+      "Bash(pnpm dev *)",
+      "Bash(curl -s -o /tmp/page.html -w \"HTTP %{http_code} | Time %{time_total}s | Size %{size_download}\\\\n\" http://localhost:3002/)",
+      "Bash(taskkill /PID 16184 /F)",
+      "PowerShell(Stop-Process -Id 16184 -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(\"done\")"
+    ]
+  }
+}
