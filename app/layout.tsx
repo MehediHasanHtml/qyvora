@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Instrument_Serif } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 import { siteConfig } from "@/lib/site";
@@ -16,11 +17,11 @@ const sans = Inter({
   variable: "--font-sans",
 });
 
-const display = Instrument_Serif({
+const display = Sora({
   subsets: ["latin"],
-  weight: "400",
   display: "swap",
   variable: "--font-display",
+  // Variable font — full weight range available for display headings
 });
 
 const SITE_URL = siteConfig.url;
@@ -62,21 +63,14 @@ export const metadata: Metadata = {
     siteName: siteConfig.legalName,
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
-    images: [
-      {
-        url: siteConfig.ogImage,
-        width: 1200,
-        height: 630,
-        alt: `${siteConfig.legalName} — premium AI-powered frontend studio`,
-      },
-    ],
+    // og:image is injected automatically by app/opengraph-image.tsx
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
     creator: "@mehedihtml",
-    images: [siteConfig.ogImage],
+    // twitter:image is injected automatically by app/opengraph-image.tsx
   },
   robots: {
     index: true,
@@ -112,6 +106,19 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning className={cn(sans.variable, display.variable, "font-sans")}>
+      <meta name="google-site-verification" content="82ue5EW2szjeY7ggNNWrmr7cHtIIcmTb2njiAvZQRVw" />
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-9V8F8DMBRH"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9V8F8DMBRH');
+        `}
+      </Script>
       <body className="min-h-screen bg-background text-foreground antialiased">
         <ThemeProvider>
           <a

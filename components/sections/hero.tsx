@@ -63,7 +63,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-6 font-display text-display-2xl text-balance"
+              className="mt-6 font-display text-display-xl text-balance"
             >
               AI Frontend Engineer for
               <br className="hidden sm:block" />

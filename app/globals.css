@@ -178,22 +178,22 @@
   --text-display-2xl: clamp(3.5rem, 7vw, 6rem);
   --text-display-2xl--line-height: 1.02;
   --text-display-2xl--letter-spacing: -0.04em;
-  --text-display-2xl--font-weight: 600;
+  --text-display-2xl--font-weight: 700;
 
   --text-display-xl: clamp(2.75rem, 5.5vw, 4.5rem);
   --text-display-xl--line-height: 1.05;
   --text-display-xl--letter-spacing: -0.035em;
-  --text-display-xl--font-weight: 600;
+  --text-display-xl--font-weight: 700;
 
   --text-display-lg: clamp(2.25rem, 4vw, 3.25rem);
   --text-display-lg--line-height: 1.1;
   --text-display-lg--letter-spacing: -0.03em;
-  --text-display-lg--font-weight: 600;
+  --text-display-lg--font-weight: 700;
 
   --text-display-md: clamp(1.75rem, 2.6vw, 2.25rem);
   --text-display-md--line-height: 1.15;
   --text-display-md--letter-spacing: -0.025em;
-  --text-display-md--font-weight: 600;
+  --text-display-md--font-weight: 700;
 
   --text-eyebrow: 0.78rem;
   --text-eyebrow--line-height: 1.2;
@@ -248,7 +248,7 @@
 /* ============================================================
    Utilities
    ============================================================ */
-@utility text-balance { text-wrap: balance; letter-spacing: 1px !important; }
+@utility text-balance { text-wrap: balance; }
 @utility text-pretty { text-wrap: pretty; }
 
 @utility bg-aurora { background-image: var(--grad-aurora); }

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { ThemeProvider as NextThemesProvider, type ThemeProviderProps } from "next-themes";
+import { MotionConfig } from "framer-motion";
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return (
@@ -12,7 +13,8 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
       disableTransitionOnChange
       {...props}
     >
-      {children}
+      {/* reducedMotion="user" → all Framer Motion respects prefers-reduced-motion */}
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </NextThemesProvider>
   );
 }

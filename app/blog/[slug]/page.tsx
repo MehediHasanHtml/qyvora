@@ -98,7 +98,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     publisher: {
       "@type": "Organization",
       name: siteConfig.legalName,
-      logo: { "@type": "ImageObject", url: `${siteConfig.url}/logo.png` },
+      logo: { "@type": "ImageObject", url: `${siteConfig.url}${siteConfig.logo}` },
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": `${siteConfig.url}/blog/${p.slug}` },
   };

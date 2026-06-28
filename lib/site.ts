@@ -19,8 +19,10 @@ export const siteConfig = {
   tagline: "AI Frontend Engineer · Conversion-Focused Web Studio",
   description:
     "Qyvora studio is a premium AI frontend studio engineering high-conversion websites and SaaS interfaces for AI startups, SaaS founders, and real estate brands worldwide. Next.js, Tailwind v4, and conversion-first design.",
-  url: "https://mehedihtml.com",
-  ogImage: "/og.png",
+  url: "https://qyvora.vercel.app",
+  // Generated dynamically by app/opengraph-image.tsx (1200x630).
+  ogImage: "/opengraph-image",
+  logo: "/logo.svg",
   author: "Mehedi",
   email: "mehedihtml@gmail.com",
   founder: {

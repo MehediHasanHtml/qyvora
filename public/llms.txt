@@ -1,0 +1,36 @@
+# Qyvora studio — AI Frontend Studio
+
+> Qyvora studio is a premium AI frontend studio led by Mehedi, an AI Frontend Engineer with 8+ years of experience. We engineer high-conversion websites and SaaS interfaces for AI startups, SaaS founders, and luxury real-estate brands worldwide using Next.js, Tailwind CSS v4, and conversion-first design. 120+ sites shipped across 14 countries.
+
+## About
+
+- Founder: Mehedi — AI Frontend Engineer & Studio Founder
+- Stack: Next.js (App Router, RSC, Edge), Tailwind CSS v4, TypeScript, React, GSAP/Framer Motion
+- Specialties: AI startup websites, SaaS frontend systems, landing page redesign, real-estate web development, Core Web Vitals optimization, SEO + AEO
+- Performance standard: Lighthouse 95+, optimized LCP/INP/CLS
+- Serves: Worldwide — USA, UK, Dubai, Canada, Australia, Germany, Singapore
+- Contact: mehedihtml@gmail.com
+
+## Core pages
+
+- [Home](https://qyvora.vercel.app/): Overview of services, process, and results.
+- [Services](https://qyvora.vercel.app/services): 12 productized frontend & AI services.
+- [AI Startups](https://qyvora.vercel.app/services/ai-startups): Investor-grade AI product and landing surfaces.
+- [Real Estate](https://qyvora.vercel.app/services/real-estate): Luxury property sites, IDX/MLS, map UX, lead gen.
+- [Case Studies](https://qyvora.vercel.app/case-studies): Measurable conversion and ranking results.
+- [Blog](https://qyvora.vercel.app/blog): Essays on AI frontend, conversion, and SEO/AEO.
+- [About](https://qyvora.vercel.app/about): Background and approach.
+- [Contact](https://qyvora.vercel.app/contact): Start a project (reply within 12 hours).
+
+## Service landing pages
+
+- [AI Startup Website Development](https://qyvora.vercel.app/ai-startup-website-development)
+- [Landing Page Redesign](https://qyvora.vercel.app/landing-page-redesign)
+- [Real Estate Website Development](https://qyvora.vercel.app/real-estate-website-development)
+- [Frontend Optimization Services](https://qyvora.vercel.app/frontend-optimization-services)
+- [Tailwind CSS Development](https://qyvora.vercel.app/tailwind-css-development)
+- [Next.js Development Agency](https://qyvora.vercel.app/nextjs-development-agency)
+
+## Reference
+
+- Sitemap: https://qyvora.vercel.app/sitemap.xml

@@ -10,7 +10,7 @@ export const organizationSchema = {
   name: siteConfig.legalName,
   alternateName: siteConfig.name,
   url: URL,
-  logo: { "@type": "ImageObject", url: `${URL}/logo.png`, width: 512, height: 512 },
+  logo: { "@type": "ImageObject", url: `${URL}${siteConfig.logo}`, width: 512, height: 512 },
   image: `${URL}${siteConfig.ogImage}`,
   description: siteConfig.description,
   email: siteConfig.contact.email,
