@@ -1,121 +1,88 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Calendar, Mail, Clock, Globe2 } from "lucide-react";
-import { Container } from "@/components/ui/container";
-import { Section } from "@/components/ui/section";
-import { PageHeader } from "@/components/ui/page-header";
-import { Button } from "@/components/ui/button";
+import { Clock, Globe2, MessageSquare, ShieldCheck } from "lucide-react";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
+import { Container, Eyebrow } from "@/components/ui/primitives";
 import { ContactForm } from "@/components/contact-form";
+import { JsonLd } from "@/components/json-ld";
 import { siteConfig } from "@/lib/site";
+import { buildMetadata } from "@/lib/seo";
+import { breadcrumbSchema, graph, ids, webPageSchema, type Crumb } from "@/lib/schema";
 
-export const metadata: Metadata = {
-  title: "Contact Mehedi — Start an AI Frontend Project",
-  description:
-    "Tell us about your AI startup launch, SaaS landing redesign, real-estate site or Next.js project. Reply within 12 hours. Booking 3 slots for Q3.",
-  alternates: { canonical: `${siteConfig.url}/contact` },
-};
+const title = "Start a Project or Book a Discovery Call";
+const description =
+  "Tell Qyvora Studio about your AI product, website or SaaS project. Send a short message and get a reply within one business day.";
+
+export const metadata: Metadata = buildMetadata({ title, description, path: "/contact" });
+
+const crumbs: Crumb[] = [
+  { name: "Home", path: "/" },
+  { name: "Contact", path: "/contact" },
+];
+
+const expectations = [
+  {
+    Icon: Clock,
+    title: `Reply ${siteConfig.contact.responseTime}`,
+    body: "Every inquiry is read by a senior member of our team, not an automated sales sequence.",
+  },
+  {
+    Icon: MessageSquare,
+    title: "Free discovery conversation",
+    body: "A 30 minute call or written exchange to understand your goals before any proposal.",
+  },
+  {
+    Icon: Globe2,
+    title: "Working across time zones",
+    body: `We are based in ${siteConfig.base.city} (${siteConfig.base.timezone}). Mornings suit Australia and the UAE, afternoons overlap with the UK and Europe, and evening slots cover North American mornings.`,
+  },
+  {
+    Icon: ShieldCheck,
+    title: "Clear terms",
+    body: "Fixed scope proposals, milestone payments, and code and accounts owned by you from day one.",
+  },
+];
 
 export default function ContactPage() {
   return (
     <>
-      <PageHeader
-        eyebrow="Contact"
-        title={
-          <>
-            Let's build something
-            <span className="text-gradient animate-aurora">worth ranking #1</span>.
-          </>
-        }
-        description="Tell me about your project — AI startup launch, SaaS redesign, real-estate site, or a focused frontend engagement. I reply within 12 hours."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
-        size="xl"
-      />
-
-      <Section className="!pt-4">
-        <Container size="lg">
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
-            <div className="lg:col-span-7">
-              <ContactForm />
+      <section aria-labelledby="page-title" className="relative -mt-16 overflow-hidden pt-16">
+        <div aria-hidden className="absolute inset-x-0 top-0 h-[520px] bg-glow fade-b" />
+        <div aria-hidden className="absolute inset-x-0 top-0 h-[520px] grid-lines" />
+        <Container className="relative pb-24 pt-10 lg:pt-14">
+          <Breadcrumbs items={crumbs} />
+          <div className="mt-8 grid gap-12 lg:grid-cols-[1fr_1.45fr] lg:gap-16">
+            <div>
+              <Eyebrow>Contact</Eyebrow>
+              <h1 id="page-title" className="heading mt-4 text-h1 text-fg">
+                Let&apos;s discuss your project.
+              </h1>
+              <p className="mt-6 text-lede text-muted">
+                Send us a short message about what you need. We read every message and reply within one business
+                day.
+              </p>
+              <ul className="mt-10 space-y-6">
+                {expectations.map(({ Icon, title: t, body }) => (
+                  <li key={t} className="flex gap-4">
+                    <span aria-hidden className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-line bg-surface text-accent-text">
+                      <Icon className="size-4" />
+                    </span>
+                    <div>
+                      <h2 className="font-medium text-fg">{t}</h2>
+                      <p className="mt-1 text-sm leading-relaxed text-muted">{body}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
-
-            <aside className="lg:col-span-5">
-              <div className="sticky top-28 space-y-5">
-                <div className="rounded-3xl border border-border bg-surface p-7">
-                  <div className="text-eyebrow text-muted-foreground">Direct channels</div>
-                  <div className="mt-5 space-y-4">
-                    <Link
-                      href={`mailto:${siteConfig.contact.email}`}
-                      className="flex items-start gap-3 rounded-2xl border border-border bg-surface-2/60 p-4 transition-colors hover:bg-surface-3"
-                    >
-                      <span className="inline-flex size-10 items-center justify-center rounded-xl bg-aurora text-white shadow-elev-sm">
-                        <Mail className="size-4" />
-                      </span>
-                      <div>
-                        <div className="text-eyebrow text-muted-foreground">Email</div>
-                        <div className="mt-0.5 font-medium">{siteConfig.contact.email}</div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      href={siteConfig.contact.bookingUrl}
-                      target="_blank"
-                      rel="noopener"
-                      className="flex items-start gap-3 rounded-2xl border border-border bg-surface-2/60 p-4 transition-colors hover:bg-surface-3"
-                    >
-                      <span className="inline-flex size-10 items-center justify-center rounded-xl bg-aurora text-white shadow-elev-sm">
-                        <Calendar className="size-4" />
-                      </span>
-                      <div>
-                        <div className="text-eyebrow text-muted-foreground">Strategy call</div>
-                        <div className="mt-0.5 font-medium">30-min free intro · book directly</div>
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="rounded-3xl border border-border bg-surface p-7">
-                  <div className="text-eyebrow text-muted-foreground">Response time</div>
-                  <div className="mt-3 inline-flex items-center gap-2">
-                    <Clock className="size-4 text-success" />
-                    <span className="font-medium">Within 12 hours</span>
-                  </div>
-                  <p className="mt-3 text-sm text-muted-foreground">
-                    I personally read and reply to every inquiry. No account managers.
-                  </p>
-                </div>
-
-                <div className="rounded-3xl border border-border bg-surface p-7">
-                  <div className="text-eyebrow text-muted-foreground">Worldwide</div>
-                  <div className="mt-3 inline-flex items-center gap-2">
-                    <Globe2 className="size-4 text-primary" />
-                    <span className="font-medium">14 countries served</span>
-                  </div>
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {siteConfig.locations.map((l) => (
-                      <span key={l} className="rounded-full border border-border bg-surface-2 px-2.5 py-0.5 text-xs text-muted-foreground">
-                        {l}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="rounded-3xl border border-primary/30 bg-surface p-7 shadow-glow">
-                  <div className="text-eyebrow text-primary">Q3 availability</div>
-                  <div className="mt-3 font-display text-2xl font-semibold">3 slots remaining</div>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    For AI startup launches and SaaS redesigns. Real-estate sites are booked on a rolling basis.
-                  </p>
-                  <Button asChild variant="gradient" size="lg" className="mt-4 w-full">
-                    <Link href={siteConfig.contact.bookingUrl} target="_blank" rel="noopener">
-                      Reserve a slot
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-            </aside>
+            <div>
+              <ContactForm email={siteConfig.contact.email} />
+            </div>
           </div>
         </Container>
-      </Section>
+      </section>
+      <JsonLd
+        data={graph(webPageSchema({ path: "/contact", name: title, description, type: "ContactPage", about: ids.organization }), breadcrumbSchema(crumbs))}
+      />
     </>
   );
 }

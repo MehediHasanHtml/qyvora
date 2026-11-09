@@ -1,164 +1,100 @@
+/**
+ * Single source of truth for brand and business facts.
+ * Everything here must be verifiable. Do not add client names, stats,
+ * awards, or offices that cannot be backed up.
+ */
 export const siteConfig = {
-  name: "Qyvora studio",
-  legalName: "Qyvora studio — AI Frontend Studio",
-  /**
-   * Premium worldwide-tier positioning. Rotated across the site so we never
-   * appear as a generic "frontend developer."
-   */
-  positioning: {
-    primary: "AI Frontend Engineer for World-Class Startups",
-    rotations: [
-      "AI Frontend Engineer",
-      "Conversion-Focused Frontend Specialist",
-      "AI Startup Frontend Partner",
-      "Premium Web Experience Studio",
-      "SaaS Frontend Systems Expert",
-      "Modern Website Redesign Agency",
-    ],
-  },
-  tagline: "AI Frontend Engineer · Conversion-Focused Web Studio",
+  name: "Qyvora Studio",
+  shortName: "Qyvora",
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://qyvora.vercel.app").replace(/\/$/, ""),
+  positioning: "Your AI Powered Digital Product and Web Development Partner",
+  statement: "We build intelligent digital experiences for ambitious businesses.",
+  mission: "Qyvora transforms ambitious business ideas into intelligent, high performing digital experiences.",
   description:
-    "Qyvora studio is a premium AI frontend studio engineering high-conversion websites and SaaS interfaces for AI startups, SaaS founders, and real estate brands worldwide. Next.js, Tailwind v4, and conversion-first design.",
-  url: "https://qyvora.vercel.app",
-  // Generated dynamically by app/opengraph-image.tsx (1200x630).
-  ogImage: "/opengraph-image",
-  logo: "/logo.svg",
-  author: "Mehedi",
-  email: "mehedihtml@gmail.com",
-  founder: {
-    name: "Mehedi",
-    role: "AI Frontend Engineer · Founder",
-    bio: "8+ years engineering premium web experiences for AI startups, SaaS teams, and global property brands. Shipped 120+ sites across 14 countries.",
+    "Qyvora Studio designs and builds AI powered websites, intelligent web applications, SaaS platforms and premium business websites for startups and growing companies worldwide.",
+  locale: "en_US",
+  // Updated whenever the main content is revised. Used by the sitemap.
+  contentUpdated: "2026-11-09",
+  // The studio speaks as a team. No personal names or personal profiles on the site.
+  team: {
+    name: "Qyvora Studio Team",
+    experienceYears: 8,
+    summary:
+      "The Qyvora Studio team designs and engineers production websites, web applications and SaaS products with Next.js, React, Vue and modern AI tooling, for clients worldwide.",
   },
-  locations: ["Worldwide", "USA", "UK", "Dubai", "Canada", "Australia", "Germany", "Singapore"],
-  social: {
-    twitter: "https://x.com/mehedihasan_cse",
-    github: "https://github.com/MehediHasanHtmll",
-    linkedin: "https://www.linkedin.com/in/mehedi-hasan-020a47168/",
-    dribbble: "https://dribbble.com/mehedihtml",
+  base: {
+    city: "Dhaka",
+    country: "Bangladesh",
+    countryCode: "BD",
+    timezone: "GMT+6",
   },
   contact: {
     email: "mehedihtml@gmail.com",
-    bookingUrl: "https://cal.com/mehedi",
+    responseTime: "within one business day",
   },
-  // Top-level navigation — real routes (not anchors)
-  nav: [
-    { label: "Services", href: "/services" },
-    { label: "AI Startups", href: "/services/ai-startups" },
-    { label: "Real Estate", href: "/services/real-estate" },
-    { label: "Case Studies", href: "/case-studies" },
-    { label: "Blog", href: "/blog" },
-    { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" },
+  // Company profiles only. Leave a value empty to hide it from the footer and structured data.
+  social: {
+    linkedin: "",
+    github: "",
+    x: "",
+    facebook: "",
+  },
+  xHandle: "",
+  fiverrRating: "5.0",
+  analytics: {
+    gaId: "G-9V8F8DMBRH",
+    googleSiteVerification: "82ue5EW2szjeY7ggNNWrmr7cHtIIcmTb2njiAvZQRVw",
+  },
+  primaryCta: { label: "Start a Project", href: "/contact" },
+  callCta: { label: "Schedule a Discovery Call", href: "/contact?intent=call" },
+  targetMarkets: [
+    "United States",
+    "United Kingdom",
+    "Canada",
+    "Australia",
+    "Germany",
+    "Netherlands",
+    "Switzerland",
+    "United Arab Emirates",
   ],
-  primaryCta: { label: "Start a project", href: "/contact" },
-  secondaryCta: { label: "View work", href: "/case-studies" },
 } as const;
 
-export type SiteConfig = typeof siteConfig;
+export type NavLink = { label: string; href: string; description?: string };
 
-/** Programmatic SEO landing pages — slug → focus keyword */
-export const seoLandingPages = [
-  {
-    slug: "ai-startup-website-development",
-    h1: "AI Startup Website Development",
-    title: "AI Startup Website Development Agency — Premium, Investor-Grade",
-    intent: "AI founders looking for a launch-ready premium website.",
-    primaryKeyword: "AI startup website development",
-    relatedKeywords: [
-      "AI startup web design agency",
-      "AI SaaS website developer",
-      "AI website development services",
-      "AI startup landing page design",
-      "ChatGPT-style UI development",
-    ],
-  },
-  {
-    slug: "landing-page-redesign",
-    h1: "Landing Page Redesign Agency",
-    title: "Landing Page Redesign Agency — Conversion-Architected",
-    intent: "Marketers and founders rebuilding underperforming landing pages.",
-    primaryKeyword: "landing page redesign agency",
-    relatedKeywords: [
-      "landing page redesign services",
-      "high-conversion landing page design",
-      "SaaS landing page redesign",
-      "landing page optimization agency",
-      "premium landing page developer",
-    ],
-  },
-  {
-    slug: "real-estate-website-development",
-    h1: "Real Estate Website Development",
-    title: "Real Estate Website Development — Luxury Property Sites",
-    intent: "Brokerages and agents building premium property portals.",
-    primaryKeyword: "real estate website development",
-    relatedKeywords: [
-      "luxury real estate website design",
-      "real estate agency web development",
-      "IDX MLS website developer",
-      "real estate lead generation website",
-      "Dubai real estate website developer",
-    ],
-  },
-  {
-    slug: "frontend-optimization-services",
-    h1: "Frontend Optimization Services",
-    title: "Frontend Optimization Services — Core Web Vitals 95+",
-    intent: "Teams needing speed, INP, LCP, and SEO performance fixes.",
-    primaryKeyword: "frontend optimization service",
-    relatedKeywords: [
-      "website performance optimization",
-      "Core Web Vitals optimization service",
-      "Next.js performance optimization",
-      "LCP optimization service",
-      "Lighthouse 95 optimization",
-    ],
-  },
-  {
-    slug: "tailwind-css-development",
-    h1: "Tailwind CSS Development",
-    title: "Tailwind CSS Development & v4 Refactoring Agency",
-    intent: "Teams adopting Tailwind v4 or refactoring legacy CSS.",
-    primaryKeyword: "Tailwind CSS expert",
-    relatedKeywords: [
-      "Tailwind CSS developer for hire",
-      "Tailwind v4 refactoring service",
-      "HTML to Tailwind conversion",
-      "Tailwind design system development",
-      "Tailwind component library development",
-    ],
-  },
-  {
-    slug: "nextjs-development-agency",
-    h1: "Next.js Development Agency",
-    title: "Next.js Development Agency — App Router, RSC, Edge",
-    intent: "Founders and teams building production Next.js applications.",
-    primaryKeyword: "next.js agency",
-    relatedKeywords: [
-      "Next.js development services",
-      "Next.js 16 development agency",
-      "App Router development",
-      "Next.js SaaS development",
-      "Next.js website development company",
-    ],
-  },
-] as const;
+export const mainNav: NavLink[] = [
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "Solutions", href: "/solutions" },
+  { label: "Industries", href: "/industries" },
+  { label: "Projects", href: "/projects" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+];
 
-export type SeoLandingSlug = (typeof seoLandingPages)[number]["slug"];
-
-/** Services — used for /services index, JSON-LD, and footer */
-export const servicesList = [
-  { slug: "ai-frontend-development", name: "AI-Integrated Frontend Development", short: "Streaming UIs, agent dashboards, RAG interfaces." },
-  { slug: "ai-startup-websites",     name: "AI Startup Websites",                 short: "Investor-grade product + landing surfaces." },
-  { slug: "landing-page-redesign",   name: "Landing Page Redesign",               short: "Conversion-architected page rebuilds." },
-  { slug: "website-optimization",    name: "Website Optimization",                short: "Core Web Vitals & Lighthouse 95+." },
-  { slug: "real-estate-websites",    name: "Real Estate Websites",                short: "Luxury listings, map UX, lead gen." },
-  { slug: "saas-frontend-systems",   name: "SaaS Frontend Systems",               short: "Scalable component libraries & dashboards." },
-  { slug: "conversion-optimization", name: "Conversion Optimization",             short: "Scientific A/B testing & UX research." },
-  { slug: "tailwind-refactoring",    name: "Tailwind v4 Refactoring",             short: "Legacy HTML → tokenized design systems." },
-  { slug: "nextjs-development",      name: "Next.js Development",                 short: "App Router, RSC, edge deploys." },
-  { slug: "speed-optimization",      name: "Speed Optimization",                  short: "LCP, INP, CLS engineering." },
-  { slug: "mobile-responsive",       name: "Premium Mobile Responsive Design",    short: "Mobile-first interfaces, any device." },
-  { slug: "website-modernization",   name: "Website Modernization",               short: "Legacy → Next.js + Tailwind v4 refresh." },
+/** Audience based solutions. Each one points to existing service pages. */
+export const solutions = [
+  {
+    id: "startups",
+    label: "For Startup Founders",
+    short: "Launch a credible product and website fast.",
+    pages: ["startup-website-development", "mvp-development", "landing-page-development"],
+  },
+  {
+    id: "saas",
+    label: "For SaaS Founders",
+    short: "Ship and scale a subscription product.",
+    pages: ["saas-development", "ai-saas-development", "nextjs-development-agency"],
+  },
+  {
+    id: "ai",
+    label: "For AI Entrepreneurs",
+    short: "Turn a model or workflow into a product people pay for.",
+    pages: ["ai-web-application-development", "ai-chatbot-development", "ai-integration-automation"],
+  },
+  {
+    id: "established",
+    label: "For Established Businesses",
+    short: "Modernize your website and internal tools.",
+    pages: ["website-redesign", "custom-website-development", "custom-web-application-development", "ai-website-development"],
+  },
 ] as const;

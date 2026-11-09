@@ -1,93 +1,91 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, Calendar, Clock } from "lucide-react";
-import { Container } from "@/components/ui/container";
-import { Section } from "@/components/ui/section";
-import { PageHeader } from "@/components/ui/page-header";
-import { posts } from "@/lib/posts";
-import { siteConfig } from "@/lib/site";
+import { ArrowRight } from "lucide-react";
+import { PageHero } from "@/components/page-hero";
+import { Container, Section } from "@/components/ui/primitives";
+import { CtaBand } from "@/components/cta-band";
+import { JsonLd } from "@/components/json-ld";
+import { readingMinutes, sortedPosts } from "@/lib/content/posts";
+import { absoluteUrl, buildMetadata } from "@/lib/seo";
+import { formatDate } from "@/lib/utils";
+import { breadcrumbSchema, graph, ids, webPageSchema, type Crumb } from "@/lib/schema";
 
-export const metadata: Metadata = {
-  title: "Blog — AI Frontend, Conversion & SEO Insights",
-  description:
-    "Long-form essays on AI frontend engineering, conversion optimization, SEO + AEO architecture, real-estate web design and the craft of premium Next.js sites.",
-  alternates: { canonical: `${siteConfig.url}/blog` },
-};
+const title = "Insights on AI Development, SaaS and High Performing Websites";
+const description =
+  "Practical guides from Qyvora Studio on AI website costs, startup websites, SaaS development, industry websites, SEO and answer engine optimization.";
 
-const dateFmt = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" });
+export const metadata: Metadata = buildMetadata({ title: "Insights and Guides", description, path: "/blog" });
 
-export default function BlogIndexPage() {
-  const [featured, ...rest] = [...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
+const crumbs: Crumb[] = [
+  { name: "Home", path: "/" },
+  { name: "Insights", path: "/blog" },
+];
+
+export default function BlogPage() {
+  const [lead, ...rest] = sortedPosts;
   return (
     <>
-      <PageHeader
-        eyebrow="Blog"
-        title={
-          <>
-            Field notes from a{" "}
-            <span className="text-gradient animate-aurora">premium frontend studio</span>.
-          </>
-        }
-        description="Long-form essays on AI frontend, conversion optimization, SEO + AEO architecture and the craft of shipping premium Next.js sites."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Blog" }]}
-        size="xl"
+      <PageHero
+        crumbs={crumbs}
+        eyebrow="Insights"
+        title="Practical guides for building better digital products."
+        lede="Clear answers to the questions founders and business owners ask us most, written from real project experience."
       />
-
-      <Section className="!pt-6">
+      <Section labelledBy="posts-title" className="pt-16">
         <Container>
-          {/* Featured */}
-          {featured ? (
-            <Link
-              href={`/blog/${featured.slug}`}
-              className="group relative grid grid-cols-1 overflow-hidden rounded-3xl border border-border bg-surface transition-all hover:border-border-strong hover:shadow-elev-lg lg:grid-cols-2"
-            >
-              <div className="relative h-64 overflow-hidden bg-gradient-to-br from-primary/30 via-secondary/20 to-accent/30 lg:h-auto">
-                <div aria-hidden className="absolute inset-0 grid-bg opacity-40" />
-                <div className="absolute inset-0 flex items-center justify-center p-8">
-                  <div className="font-display text-3xl font-semibold leading-tight text-foreground/90 text-balance">
-                    {featured.title}
-                  </div>
-                </div>
-                <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-background/70 px-3 py-1 text-xs font-medium backdrop-blur">
-                  Featured · {featured.category}
-                </div>
-              </div>
-              <div className="flex flex-col justify-center p-8 lg:p-12">
-                <div className="inline-flex items-center gap-3 text-sm text-muted-foreground">
-                  <span className="inline-flex items-center gap-1.5"><Calendar className="size-3.5" /> {dateFmt.format(new Date(featured.date))}</span>
-                  <span>·</span>
-                  <span className="inline-flex items-center gap-1.5"><Clock className="size-3.5" /> {featured.readMinutes} min read</span>
-                </div>
-                <h2 className="mt-4 font-display text-display-md text-balance">{featured.title}</h2>
-                <p className="mt-4 text-muted-foreground leading-relaxed">{featured.description}</p>
-                <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-foreground group-hover:text-primary">
-                  Read essay
-                  <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                </span>
-              </div>
-            </Link>
-          ) : null}
-
-          {/* Rest */}
-          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <h2 id="posts-title" className="sr-only">
+            Articles
+          </h2>
+          <Link
+            href={`/blog/${lead.slug}`}
+            className="group grid gap-8 rounded-2xl border border-line bg-surface p-8 transition-colors hover:border-accent-line sm:p-10 lg:grid-cols-[1.4fr_1fr] lg:items-end"
+          >
+            <div>
+              <p className="eyebrow text-accent-text">Latest · {lead.category}</p>
+              <h3 className="heading mt-4 text-[clamp(1.65rem,1.35rem+1vw,2.25rem)] leading-[1.08] text-fg">{lead.title}</h3>
+            </div>
+            <div>
+              <p className="leading-relaxed text-muted">{lead.description}</p>
+              <p className="mt-6 flex items-center gap-3 text-sm text-muted">
+                <time dateTime={lead.published}>{formatDate(lead.published)}</time>
+                <span aria-hidden>·</span>
+                {readingMinutes(lead.body)} min read
+                <ArrowRight aria-hidden className="ml-auto size-4 text-fg transition-transform group-hover:translate-x-1" />
+              </p>
+            </div>
+          </Link>
+          <ul className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {rest.map((p) => (
-              <Link
-                key={p.slug}
-                href={`/blog/${p.slug}`}
-                className="group flex flex-col rounded-3xl border border-border bg-surface p-6 transition-all hover:border-border-strong hover:shadow-elev-md hover:-translate-y-1"
-              >
-                <div className="text-eyebrow text-primary">{p.category}</div>
-                <h3 className="mt-3 font-display text-xl font-semibold tracking-tight text-balance">{p.title}</h3>
-                <p className="mt-3 text-sm text-muted-foreground leading-relaxed line-clamp-3">{p.description}</p>
-                <div className="mt-auto pt-6 flex items-center justify-between text-xs text-muted-foreground">
-                  <span>{dateFmt.format(new Date(p.date))}</span>
-                  <span>{p.readMinutes} min read</span>
-                </div>
-              </Link>
+              <li key={p.slug}>
+                <Link
+                  href={`/blog/${p.slug}`}
+                  className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-7 transition-colors hover:border-accent-line"
+                >
+                  <p className="eyebrow">{p.category}</p>
+                  <h3 className="mt-4 text-xl font-semibold leading-snug tracking-tight text-fg">{p.title}</h3>
+                  <p className="mt-3 line-clamp-3 flex-1 text-sm leading-relaxed text-muted">{p.description}</p>
+                  <p className="mt-6 flex items-center gap-2 text-xs text-muted">
+                    <time dateTime={p.updated}>Updated {formatDate(p.updated)}</time>
+                    <span aria-hidden>·</span>
+                    {readingMinutes(p.body)} min read
+                  </p>
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         </Container>
       </Section>
+      <CtaBand title="Have a question we have not answered?" body="Send it with your project details and we will reply personally." />
+      <JsonLd
+        data={graph(webPageSchema({ path: "/blog", name: title, description, type: "CollectionPage" }), breadcrumbSchema(crumbs), {
+          "@type": "Blog",
+          "@id": `${absoluteUrl("/blog")}#blog`,
+          name: "Qyvora Studio Insights",
+          url: absoluteUrl("/blog"),
+          publisher: { "@id": ids.organization },
+          blogPost: sortedPosts.map((p) => ({ "@id": `${absoluteUrl(`/blog/${p.slug}`)}#article` })),
+        })}
+      />
     </>
   );
 }

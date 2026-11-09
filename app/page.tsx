@@ -1,29 +1,48 @@
-import { Hero } from "@/components/sections/hero";
-import { SocialProof } from "@/components/sections/social-proof";
-import { Services } from "@/components/sections/services";
-import { AiStartup } from "@/components/sections/ai-startup";
-import { RealEstate } from "@/components/sections/real-estate";
-import { Process } from "@/components/sections/process";
-import { Portfolio } from "@/components/sections/portfolio";
-import { SeoAeo } from "@/components/sections/seo-aeo";
-import { WhyChoose } from "@/components/sections/why-choose";
-import { FAQ } from "@/components/sections/faq";
-import { FinalCTA } from "@/components/sections/final-cta";
+import type { Metadata } from "next";
+import { Hero } from "@/components/home/hero";
+import {
+  AiDevelopment,
+  Expertise,
+  FeaturedProjects,
+  HomeFaq,
+  Industries,
+  Process,
+  Services,
+  Testimonials,
+  WhyQyvora,
+} from "@/components/home/sections";
+import { CtaBand } from "@/components/cta-band";
+import { JsonLd } from "@/components/json-ld";
+import { buildMetadata } from "@/lib/seo";
+import { faqSchema, graph, ids, webPageSchema } from "@/lib/schema";
+import { homeFaqs } from "@/lib/content/home";
+
+const title = "Qyvora Studio | AI Development and Digital Product Agency";
+const description =
+  "Qyvora Studio builds AI powered websites, intelligent web applications and scalable SaaS platforms for startups and ambitious businesses worldwide.";
+
+export const metadata: Metadata = buildMetadata({ title, description, path: "/", absoluteTitle: true });
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <SocialProof />
+      <Expertise />
       <Services />
-      <AiStartup />
-      <RealEstate />
+      <Industries />
+      <AiDevelopment />
+      <FeaturedProjects />
+      <WhyQyvora />
       <Process />
-      <Portfolio />
-      <SeoAeo />
-      <WhyChoose />
-      <FAQ />
-      <FinalCTA />
+      <Testimonials />
+      <HomeFaq />
+      <CtaBand />
+      <JsonLd
+        data={graph(
+          webPageSchema({ path: "/", name: title, description, hasBreadcrumb: false, about: ids.organization }),
+          faqSchema("/", homeFaqs),
+        )}
+      />
     </>
   );
 }

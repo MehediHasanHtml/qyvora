@@ -1,188 +1,172 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowUpRight, Award, Globe2, Sparkles, Rocket, Brain, Layers } from "lucide-react";
-import { Container } from "@/components/ui/container";
-import { Section, SectionHeader } from "@/components/ui/section";
-import { PageHeader } from "@/components/ui/page-header";
-import { Button } from "@/components/ui/button";
-import { OutcomesGrid } from "@/components/ui/outcomes-grid";
-import { FinalCTA } from "@/components/sections/final-cta";
+import { Bot, Code2, LayoutTemplate, Layers } from "lucide-react";
+import { PageHero } from "@/components/page-hero";
+import { ButtonLink, Container, IconTile, Section, SectionHeading } from "@/components/ui/primitives";
+import { CtaBand } from "@/components/cta-band";
+import { JsonLd } from "@/components/json-ld";
 import { siteConfig } from "@/lib/site";
-import Image from "next/image";
+import { projects } from "@/lib/content/projects";
+import { buildMetadata } from "@/lib/seo";
+import { breadcrumbSchema, graph, ids, webPageSchema, type Crumb } from "@/lib/schema";
 
-export const metadata: Metadata = {
-  title: "About Mehedi — AI Frontend Engineer & Studio",
-  description:
-    "Mehedi is an AI frontend engineer and studio founder building premium web experiences for AI startups, SaaS founders and luxury real-estate brands worldwide.",
-  alternates: { canonical: `${siteConfig.url}/about` },
-};
+const title = "About Qyvora Studio, an AI Development Agency";
+const description =
+  "Qyvora Studio is an AI development and digital product agency building websites, web applications and SaaS platforms for businesses worldwide.";
 
-const values = [
-  { icon: Sparkles, title: "Craft over volume", body: "We ship a handful of premium engagements each quarter. No throughput model." },
-  { icon: Brain, title: "AI as a tool, not a crutch", body: "We use AI to accelerate research, copy and QA — never to lower the design ceiling." },
-  { icon: Rocket, title: "Outcomes are the deliverable", body: "Lighthouse 95+, conversion lifts and ranking gains — not Figma files." },
-  { icon: Layers, title: "Tokenized systems", body: "Every site we ship is a design system you can grow, not a single-use template." },
+export const metadata: Metadata = buildMetadata({ title, description, path: "/about" });
+
+const crumbs: Crumb[] = [
+  { name: "Home", path: "/" },
+  { name: "About", path: "/about" },
 ];
 
-const journey = [
-  { year: "2018", title: "First HTML/CSS commissions", body: "Started building websites for local agencies and small businesses." },
-  { year: "2020", title: "Pivoted to React + Next.js", body: "Specialized in modern frontend after the rise of Server Components." },
-  { year: "2022", title: "First SaaS clients", body: "Began shipping production product UI for SaaS startups in Europe and the US." },
-  { year: "2024", title: "AI startup focus", body: "Started building for YC and Antler-backed AI founders — streaming UIs, agent dashboards." },
-  { year: "2026", title: "Qyvora Studio", body: "Productized the studio around AI startups, SaaS systems and luxury real estate." },
+const capabilities = [
+  { Icon: Bot, title: "AI development", body: "AI powered websites, chatbots, agents and automations connected to your real data and tools." },
+  { Icon: LayoutTemplate, title: "Website development", body: "Fast, search friendly business, startup and landing page websites with original design." },
+  { Icon: Layers, title: "SaaS and applications", body: "SaaS platforms, MVPs, dashboards and customer portals built on a clean, typed codebase." },
+  { Icon: Code2, title: "Frontend engineering", body: "Next.js, React, Vue and Nuxt interfaces with consistent design systems and strong performance." },
+];
+
+const timeline = [
+  { year: "2018", title: "First production websites", body: "Our team started building websites and interfaces for businesses with HTML, CSS and JavaScript." },
+  { year: "2024", title: "Web applications", body: "Moved into API driven web applications with Vue 3, Nuxt and REST APIs." },
+  { year: "2025", title: "Dashboards and marketplaces", body: "Delivered typed Nuxt dashboards and a multi vendor marketplace frontend." },
+  { year: "2026", title: "Qyvora Studio", body: "Launched Qyvora Studio to offer AI development, websites and SaaS builds to businesses worldwide, including clinic, law office and real estate websites across Europe." },
+];
+
+const principles = [
+  { title: "Honest by default", body: "We publish only real projects and verifiable facts. If a result is not measured, we do not claim it." },
+  { title: "Business first", body: "Every page, feature and integration should move a business goal. If it does not, we suggest leaving it out." },
+  { title: "Craft that lasts", body: "Clean, typed code and consistent design systems, so your product is easy to extend long after launch." },
+  { title: "AI with judgement", body: "We use AI where it is reliable and useful, add guardrails where it is not, and keep a person in charge of quality." },
+];
+
+const collaboration = [
+  { title: "Language", body: "All communication is in English, written and spoken." },
+  { title: "Time zones", body: `Based in ${siteConfig.base.city} (${siteConfig.base.timezone}) with overlapping hours for the UK, Europe, the UAE and Australia, and evening slots for North America.` },
+  { title: "Updates", body: "Weekly progress updates with working links you can click through, plus calls when decisions are needed." },
+  { title: "Ownership", body: "Code, hosting, domains and API accounts are set up under your ownership from the start." },
 ];
 
 export default function AboutPage() {
+  const liveProjects = projects.filter((p) => p.liveUrl).length;
   return (
     <>
-      <PageHeader
-        eyebrow="About"
-        title={
-          <>
-            Premium frontend craft —{" "}
-            <span className="text-gradient animate-aurora">engineered, not improvised</span>.
-          </>
-        }
-        description="Mehedi is an AI frontend engineer and studio founder building the websites and product surfaces that define the next generation of AI startups, SaaS brands and luxury real estate."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
-        size="xl"
+      <PageHero
+        crumbs={crumbs}
+        eyebrow="About Qyvora"
+        title="An AI development agency for ambitious digital products."
+        lede="Qyvora Studio designs and builds AI powered websites, web applications and SaaS platforms. You work directly with the people designing and building your product, without layers of account management in between."
       >
-        <Button asChild variant="gradient" size="lg">
-          <Link href="/contact">Work with Mehedi <ArrowUpRight className="size-4" /></Link>
-        </Button>
-        <Button asChild variant="outline" size="lg">
-          <Link href="/case-studies">See selected work</Link>
-        </Button>
-      </PageHeader>
+        <ButtonLink href="/contact" size="lg" arrow track="cta_start_project">
+          Start a Project
+        </ButtonLink>
+        <ButtonLink href="/projects" size="lg" variant="secondary">
+          See Our Work
+        </ButtonLink>
+      </PageHero>
 
-      <Section className="!pt-4">
+      <Section labelledBy="studio-title">
         <Container>
-          <OutcomesGrid
-            items={[
-              { value: "8+", label: "Years engineering" },
-              { value: "120+", label: "Sites shipped" },
-              { value: "14", label: "Countries served" },
-              { value: "98", label: "Avg Lighthouse" },
-            ]}
-          />
-        </Container>
-      </Section>
-
-      <Section>
-        <Container size="lg">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-start">
-            <div className="lg:col-span-5">
-              <div className="relative overflow-hidden rounded-3xl border border-border-strong bg-surface p-1 shadow-elev-lg">
-                <div className="aspect-square overflow-hidden rounded-2xl bg-aurora animate-aurora flex items-center justify-center">
-                  <Image src="/Mehedi Hasan — AI Frontend Engineer.jpg" alt="Mehedi Hasan — AI Frontend Engineer and founder of Mehedi Studio" width={500} height={500} className="object-cover" /> 
-                </div>
-                <div className="p-6">
-                  <div className="text-eyebrow text-muted-foreground">{siteConfig.founder.role}</div>
-                  <div className="mt-1 font-display text-2xl font-semibold tracking-tight">
-                    {siteConfig.founder.name} Hasan
+          <div className="grid gap-14 lg:grid-cols-[1fr_1.3fr] lg:items-start">
+            <div>
+              <SectionHeading id="studio-title" eyebrow="Who we are" title="A digital product studio built around engineering." />
+              <div className="mt-8 space-y-5 text-lg leading-relaxed text-fg/85">
+                <p>
+                  Qyvora Studio is a software development agency based in {siteConfig.base.city}, working with startups and
+                  established businesses around the world. We plan, design and engineer websites, web applications and SaaS
+                  products, and add AI where it saves time or creates value.
+                </p>
+                <p>
+                  Our work spans dental clinic, law office and real estate agency websites, SaaS dashboards, ecommerce
+                  marketplaces and editorial products. Clients on Fiverr rate our work {siteConfig.fiverrRating} out of 5,
+                  with repeat clients highlighting fast delivery and clear communication.
+                </p>
+              </div>
+              <dl className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
+                {[
+                  ["Experience", `${siteConfig.team.experienceYears}+ years in production web development`],
+                  ["Live projects", `${liveProjects} you can open and inspect today`],
+                  ["Based in", `${siteConfig.base.city}, ${siteConfig.base.country}`],
+                  ["Core stack", "Next.js, React, TypeScript, Vue, Nuxt, Tailwind CSS, Node.js"],
+                ].map(([k, v]) => (
+                  <div key={k} className="bg-surface p-5">
+                    <dt className="eyebrow">{k}</dt>
+                    <dd className="mt-2 text-sm text-fg">{v}</dd>
                   </div>
-                  <div className="mt-1 inline-flex items-center gap-1.5 text-sm text-muted-foreground">
-                    <Globe2 className="size-3.5" /> Worldwide · Async-first
-                  </div>
-                </div>
-              </div>
+                ))}
+              </dl>
             </div>
-
-            <div className="lg:col-span-7">
-              <div className="space-y-6 text-lg leading-relaxed text-foreground/90">
-                <p>
-                  I'm Mehedi — an AI frontend engineer and the founder of Qyvora Studio. For 8+ years
-                  I've been building premium web experiences for AI startups, SaaS founders and luxury
-                  real-estate brands worldwide.
-                </p>
-                <p>
-                  What started as HTML/CSS commissions in 2018 has become a studio that ships
-                  investor-grade product surfaces for YC-backed AI startups, conversion-architected
-                  landing pages for Series A SaaS teams, and luxury property sites that rank #1 in
-                  Dubai's premium neighborhoods.
-                </p>
-                <p>
-                  My belief: in a world where AI can generate a website in 30 seconds, the difference
-                  between a forgettable site and one that closes pilots, raises rounds and ranks
-                  globally is <span className="font-medium text-foreground">craft</span> — visual,
-                  technical, and conversion craft.
-                </p>
-                <p>
-                  Every engagement is run by me directly. No account managers, no offshore handoffs.
-                  Just senior frontend craft on a startup timeline.
-                </p>
-              </div>
-
-              <div className="mt-10">
-                <div className="text-eyebrow text-muted-foreground">Core expertise</div>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {[
-                    "AI Frontend Engineer",
-                    "Conversion-Focused Specialist",
-                    "SaaS Frontend Systems",
-                    "Next.js 16 (App Router, RSC)",
-                    "Tailwind v4 Design Systems",
-                    "TypeScript",
-                    "Framer Motion",
-                    "Real Estate Web (IDX/MLS)",
-                    "Schema / SEO / AEO",
-                  ].map((skill) => (
-                    <span key={skill} className="rounded-full border border-border bg-surface-2 px-3 py-1 text-sm">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <ul className="grid gap-4 sm:grid-cols-2">
+              {capabilities.map(({ Icon, title: t, body }) => (
+                <li key={t} className="card p-6">
+                  <IconTile>
+                    <Icon />
+                  </IconTile>
+                  <h3 className="mt-5 font-semibold text-fg">{t}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{body}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         </Container>
       </Section>
 
-      <Section className="bg-surface/40 border-y border-border">
-        <Container>
-          <SectionHeader
-            eyebrow="Values"
-            title="How we work"
-            description="Four operating principles that shape every engagement."
-          />
-          <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {values.map((v) => (
-              <div key={v.title} className="rounded-3xl border border-border bg-surface p-6 transition-all hover:border-border-strong hover:shadow-elev-md">
-                <span className="inline-flex size-11 items-center justify-center rounded-2xl bg-aurora text-white shadow-elev-sm">
-                  <v.icon className="size-5" />
-                </span>
-                <h3 className="mt-5 font-display text-lg font-semibold">{v.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{v.body}</p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      <Section>
+      <Section labelledBy="journey-title" className="border-y border-line bg-bg-elevated">
         <Container size="lg">
-          <SectionHeader
-            eyebrow="Journey"
-            title="From HTML commissions to AI studio"
-            description="A short history of how Mehedi became a studio focused on AI startups, SaaS systems and luxury real estate."
-          />
-          <ol className="relative mt-14 max-w-3xl mx-auto">
-            <div aria-hidden className="absolute left-[18px] top-2 bottom-2 w-px bg-gradient-to-b from-border-strong via-border to-border-strong" />
-            {journey.map((j) => (
-              <li key={j.year} className="relative mb-8 pl-12">
-                <span className="absolute left-0 top-1 inline-flex size-9 items-center justify-center rounded-full bg-foreground text-background font-mono text-xs font-semibold">
-                  <Award className="size-4" />
-                </span>
-                <div className="text-eyebrow text-primary">{j.year}</div>
-                <div className="mt-1 font-display text-xl font-semibold">{j.title}</div>
-                <p className="mt-1 text-muted-foreground">{j.body}</p>
+          <SectionHeading id="journey-title" eyebrow="Our story" title="From first websites to an AI development agency" />
+          <ol className="mt-12 border-l border-line">
+            {timeline.map((t) => (
+              <li key={t.year} className="relative pb-10 pl-8 last:pb-0">
+                <span aria-hidden className="absolute -left-[5px] top-2 size-2.5 rounded-full bg-accent-text" />
+                <p className="font-mono text-sm text-accent-text">{t.year}</p>
+                <h3 className="mt-1 text-lg font-semibold text-fg">{t.title}</h3>
+                <p className="mt-1 text-muted">{t.body}</p>
               </li>
             ))}
           </ol>
         </Container>
       </Section>
 
-      <FinalCTA />
+      <Section labelledBy="principles-title">
+        <Container>
+          <SectionHeading id="principles-title" eyebrow="How we work" title="Principles behind every project" />
+          <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {principles.map((p) => (
+              <li key={p.title} className="rounded-2xl border border-line bg-surface p-6">
+                <h3 className="font-semibold text-fg">{p.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{p.body}</p>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </Section>
+
+      <Section labelledBy="collab-title" className="border-t border-line">
+        <Container>
+          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.4fr]">
+            <SectionHeading
+              id="collab-title"
+              eyebrow="International collaboration"
+              title="Working together from anywhere"
+              description="Qyvora works remotely with clients worldwide. We do not have offices outside Bangladesh, and we do not pretend to. What we do have is a reliable way of working across borders."
+            />
+            <dl className="divide-y divide-line border-y border-line">
+              {collaboration.map((c) => (
+                <div key={c.title} className="grid gap-2 py-6 sm:grid-cols-[160px_1fr]">
+                  <dt className="font-medium text-fg">{c.title}</dt>
+                  <dd className="text-muted">{c.body}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </Container>
+      </Section>
+
+      <CtaBand />
+      <JsonLd
+        data={graph(webPageSchema({ path: "/about", name: title, description, type: "AboutPage", about: ids.organization }), breadcrumbSchema(crumbs))}
+      />
     </>
   );
 }

@@ -3,27 +3,22 @@
 import * as React from "react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
-import { cn } from "@/lib/utils";
 
-export function ThemeToggle({ className }: { className?: string }) {
+export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- standard next-themes hydration guard
   React.useEffect(() => setMounted(true), []);
-
-  const isDark = mounted && resolvedTheme === "dark";
+  const isDark = !mounted || resolvedTheme !== "light";
 
   return (
     <button
       type="button"
-      aria-label="Toggle theme"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className={cn(
-        "relative inline-flex size-10 items-center justify-center rounded-full border border-border bg-surface/60 text-muted-foreground transition-all hover:text-foreground hover:border-border-strong",
-        className,
-      )}
+      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      className="inline-flex size-10 items-center justify-center rounded-full border border-line text-muted transition-colors hover:border-line-strong hover:text-fg"
     >
-      <Sun className={cn("size-[18px] transition-all", isDark ? "scale-0 -rotate-90 opacity-0" : "scale-100 rotate-0 opacity-100")} />
-      <Moon className={cn("absolute size-[18px] transition-all", isDark ? "scale-100 rotate-0 opacity-100" : "scale-0 rotate-90 opacity-0")} />
+      {isDark ? <Sun aria-hidden className="size-[17px]" /> : <Moon aria-hidden className="size-[17px]" />}
     </button>
   );
 }

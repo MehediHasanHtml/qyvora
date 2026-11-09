@@ -1,172 +1,175 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowUpRight, Calendar, Clock, ChevronLeft } from "lucide-react";
-import { Container } from "@/components/ui/container";
-import { Section } from "@/components/ui/section";
-import { PageHeader } from "@/components/ui/page-header";
-import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
+import { Container } from "@/components/ui/primitives";
+import { Markdown, headingsOf } from "@/components/markdown";
+import { CtaBand } from "@/components/cta-band";
 import { JsonLd } from "@/components/json-ld";
-import { FinalCTA } from "@/components/sections/final-cta";
-import { posts, getPost } from "@/lib/posts";
+import { getPost, posts, readingMinutes, sortedPosts } from "@/lib/content/posts";
+import { pagesBySlugs } from "@/lib/content/pages";
 import { siteConfig } from "@/lib/site";
+import { absoluteUrl, buildMetadata } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, graph, webPageSchema, type Crumb } from "@/lib/schema";
+import { formatDate } from "@/lib/utils";
 
-export async function generateStaticParams() {
+export const dynamicParams = false;
+
+export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const p = getPost(slug);
-  if (!p) return {};
-  return {
-    title: p.title,
-    description: p.description,
-    alternates: { canonical: `${siteConfig.url}/blog/${p.slug}` },
-    openGraph: {
-      title: p.title,
-      description: p.description,
-      type: "article",
-      publishedTime: p.date,
-      url: `${siteConfig.url}/blog/${p.slug}`,
-    },
-  };
-}
-
-const dateFmt = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" });
-
-function renderBody(body: string) {
-  return body.split(/\n\n+/).map((block, i) => {
-    if (block.startsWith("## ")) {
-      return (
-        <h2 key={i} className="mt-12 font-display text-display-md">
-          {block.slice(3)}
-        </h2>
-      );
-    }
-    if (block.startsWith("- ")) {
-      const items = block.split("\n").map((l) => l.replace(/^- /, ""));
-      return (
-        <ul key={i} className="my-6 space-y-2">
-          {items.map((it, j) => (
-            <li key={j} className="flex gap-3 text-foreground/90 leading-relaxed">
-              <span className="mt-2.5 size-1.5 shrink-0 rounded-full bg-primary" />
-              <span>{it}</span>
-            </li>
-          ))}
-        </ul>
-      );
-    }
-    if (/^\d+\.\s/.test(block)) {
-      const items = block.split("\n").map((l) => l.replace(/^\d+\.\s/, ""));
-      return (
-        <ol key={i} className="my-6 space-y-2">
-          {items.map((it, j) => (
-            <li key={j} className="flex gap-3 text-foreground/90 leading-relaxed">
-              <span className="mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-aurora text-white font-mono text-xs">
-                {j + 1}
-              </span>
-              <span>{it}</span>
-            </li>
-          ))}
-        </ol>
-      );
-    }
-    return (
-      <p key={i} className="my-5 text-lg leading-relaxed text-foreground/90 text-pretty">
-        {block}
-      </p>
-    );
+  const post = getPost(slug);
+  if (!post) return {};
+  return buildMetadata({
+    title: post.title,
+    description: post.description,
+    path: `/blog/${post.slug}`, ownImage: true,
+    type: "article",
+    publishedTime: post.published,
+    modifiedTime: post.updated,
   });
 }
 
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const p = getPost(slug);
-  if (!p) notFound();
+  const post = getPost(slug);
+  if (!post) notFound();
 
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: p.title,
-    description: p.description,
-    articleSection: p.category,
-    datePublished: p.date,
-    dateModified: p.date,
-    wordCount: p.body.split(/\s+/).length,
-    author: { "@type": "Person", name: siteConfig.founder.name, url: siteConfig.url },
-    publisher: {
-      "@type": "Organization",
-      name: siteConfig.legalName,
-      logo: { "@type": "ImageObject", url: `${siteConfig.url}${siteConfig.logo}` },
-    },
-    mainEntityOfPage: { "@type": "WebPage", "@id": `${siteConfig.url}/blog/${p.slug}` },
-  };
-
-  const related = posts.filter((x) => x.slug !== p.slug).slice(0, 2);
+  const path = `/blog/${post.slug}`;
+  const crumbs: Crumb[] = [
+    { name: "Home", path: "/" },
+    { name: "Insights", path: "/blog" },
+    { name: post.title, path },
+  ];
+  const toc = headingsOf(post.body);
+  const services = pagesBySlugs(post.relatedServices);
+  const more = sortedPosts.filter((p) => p.slug !== post.slug).slice(0, 3);
 
   return (
     <>
-      <PageHeader
-        eyebrow={p.category}
-        title={p.title}
-        description={p.description}
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Blog", href: "/blog" },
-          { label: p.title.length > 50 ? p.title.slice(0, 50) + "…" : p.title },
-        ]}
-        size="lg"
-      >
-        <div className="inline-flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5"><Calendar className="size-3.5" /> {dateFmt.format(new Date(p.date))}</span>
-          <span>·</span>
-          <span className="inline-flex items-center gap-1.5"><Clock className="size-3.5" /> {p.readMinutes} min read</span>
-          <span>·</span>
-          <span>By {siteConfig.founder.name}</span>
-        </div>
-      </PageHeader>
-
-      <Section className="!pt-0">
-        <Container size="md">
-          <article className="prose-mehedi mx-auto max-w-2xl">
-            {renderBody(p.body)}
-          </article>
-
-          <div className="mx-auto mt-16 max-w-2xl border-t border-border pt-8">
-            <Link href="/blog" className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground">
-              <ChevronLeft className="size-4" /> Back to blog
-            </Link>
-          </div>
-
-          {/* Related */}
-          {related.length ? (
-            <div className="mx-auto mt-16 max-w-2xl border-t border-border pt-10">
-              <div className="text-eyebrow text-muted-foreground">Keep reading</div>
-              <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {related.map((r) => (
-                  <Link
-                    key={r.slug}
-                    href={`/blog/${r.slug}`}
-                    className="group rounded-2xl border border-border bg-surface p-5 hover:border-border-strong hover:shadow-elev-md"
-                  >
-                    <div className="text-eyebrow text-primary">{r.category}</div>
-                    <div className="mt-2 font-display text-base font-semibold text-balance group-hover:text-foreground">
-                      {r.title}
-                    </div>
-                    <div className="mt-4 inline-flex items-center gap-1 text-xs text-muted-foreground group-hover:text-primary">
-                      Read essay <ArrowUpRight className="size-3.5" />
-                    </div>
+      <article>
+        <header className="relative -mt-16 overflow-hidden border-b border-line pt-16">
+          <div aria-hidden className="absolute inset-x-0 top-0 h-[480px] bg-glow fade-b" />
+          <Container size="lg" className="relative pb-14 pt-10 lg:pt-14">
+            <Breadcrumbs items={crumbs} />
+            <p className="eyebrow mt-8 text-accent-text">{post.category}</p>
+            <h1 id="page-title" className="heading mt-4 text-h1 text-fg">
+              {post.title}
+            </h1>
+            <p className="mt-6 max-w-3xl text-lede text-muted">{post.description}</p>
+            <div className="mt-8 flex flex-wrap items-center gap-4 text-sm text-muted">
+              <span className="inline-flex items-center gap-3">
+                <span
+                  aria-hidden
+                  className="heading inline-flex size-9 items-center justify-center rounded-full bg-aurora text-xs text-white"
+                >
+                  Q
+                </span>
+                <span>
+                  <Link href="/about" rel="author" className="font-medium text-fg hover:text-accent-text">
+                    {siteConfig.team.name}
                   </Link>
-                ))}
+                  <span className="block text-xs">Design and engineering</span>
+                </span>
+              </span>
+              <span aria-hidden>·</span>
+              <span>
+                Published <time dateTime={post.published}>{formatDate(post.published)}</time>
+              </span>
+              {post.updated !== post.published ? (
+                <>
+                  <span aria-hidden>·</span>
+                  <span>
+                    Updated <time dateTime={post.updated}>{formatDate(post.updated)}</time>
+                  </span>
+                </>
+              ) : null}
+              <span aria-hidden>·</span>
+              <span>{readingMinutes(post.body)} min read</span>
+            </div>
+          </Container>
+        </header>
+
+        <Container size="lg">
+          <div className="grid gap-12 py-14 lg:grid-cols-[1fr_220px] lg:py-20">
+            <div className="max-w-[68ch]">
+              <div className="prose-qy">
+                <Markdown body={post.body} />
+              </div>
+              <div className="mt-14 rounded-2xl border border-line bg-surface p-6">
+                <p className="text-sm font-medium text-fg">About {siteConfig.name}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{siteConfig.team.summary}</p>
               </div>
             </div>
-          ) : null}
+            <aside className="hidden lg:block">
+              <div className="sticky top-28 space-y-8">
+                {toc.length ? (
+                  <nav aria-label="On this page">
+                    <p className="eyebrow">On this page</p>
+                    <ul className="mt-4 space-y-2.5 border-l border-line">
+                      {toc.map((h) => (
+                        <li key={h.id}>
+                          <a href={`#${h.id}`} className="-ml-px block border-l border-transparent pl-4 text-sm text-muted hover:border-accent-text hover:text-fg">
+                            {h.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                ) : null}
+                {services.length ? (
+                  <div>
+                    <p className="eyebrow">Related services</p>
+                    <ul className="mt-4 space-y-2.5">
+                      {services.map((s) => (
+                        <li key={s.slug}>
+                          <Link href={`/${s.slug}`} className="text-sm text-fg hover:text-accent-text">
+                            {s.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+              </div>
+            </aside>
+          </div>
         </Container>
-      </Section>
+      </article>
 
-      <FinalCTA />
-      <JsonLd data={articleSchema} id={`ld-post-${p.slug}`} />
+      <section aria-labelledby="more-title" className="border-t border-line py-20">
+        <Container>
+          <h2 id="more-title" className="heading text-[1.65rem] text-fg">
+            Keep reading
+          </h2>
+          <ul className="mt-8 grid gap-5 md:grid-cols-3">
+            {more.map((p) => (
+              <li key={p.slug}>
+                <Link href={`/blog/${p.slug}`} className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-6 hover:border-accent-line">
+                  <span className="eyebrow">{p.category}</span>
+                  <span className="mt-3 flex-1 font-semibold leading-snug text-fg">{p.title}</span>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm text-muted group-hover:text-fg">
+                    Read article <ArrowRight aria-hidden className="size-3.5" />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+
+      <CtaBand primaryHref={services[0] ? `/contact?type=${services[0].projectType}` : "/contact"} />
+      <JsonLd
+        data={graph(
+          webPageSchema({ path, name: post.title, description: post.description, about: `${absoluteUrl(path)}#article` }),
+          articleSchema(post),
+          breadcrumbSchema(crumbs),
+        )}
+      />
     </>
   );
 }

@@ -1,43 +1,32 @@
 import type { MetadataRoute } from "next";
-import { siteConfig, seoLandingPages } from "@/lib/site";
-import { caseStudies } from "@/lib/case-studies";
-import { posts } from "@/lib/posts";
+import { siteConfig } from "@/lib/site";
+import { landingPages } from "@/lib/content/pages";
+import { projects } from "@/lib/content/projects";
+import { posts } from "@/lib/content/posts";
+import { absoluteUrl } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = siteConfig.url;
-  const now = new Date();
+  const updated = new Date(siteConfig.contentUpdated);
+  const page = (path: string, priority: number, changeFrequency: "weekly" | "monthly" | "yearly" = "monthly", lastModified = updated) => ({
+    url: absoluteUrl(path),
+    lastModified,
+    changeFrequency,
+    priority,
+  });
 
-  const staticRoutes: MetadataRoute.Sitemap = [
-    { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
-    { url: `${base}/services`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${base}/services/ai-startups`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${base}/services/real-estate`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${base}/case-studies`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${base}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${base}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+  return [
+    page("/", 1, "weekly"),
+    page("/services", 0.9),
+    page("/solutions", 0.7),
+    page("/industries", 0.8),
+    page("/projects", 0.8),
+    page("/about", 0.7),
+    page("/contact", 0.8),
+    page("/blog", 0.7, "weekly"),
+    ...landingPages.map((p) => page(`/${p.slug}`, p.kind === "service" ? 0.85 : 0.85)),
+    ...projects.map((p) => page(`/projects/${p.slug}`, 0.6)),
+    ...posts.map((p) => page(`/blog/${p.slug}`, 0.6, "monthly", new Date(p.updated))),
+    page("/privacy-policy", 0.2, "yearly"),
+    page("/terms", 0.2, "yearly"),
   ];
-
-  const seoRoutes: MetadataRoute.Sitemap = seoLandingPages.map((p) => ({
-    url: `${base}/${p.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.85,
-  }));
-
-  const caseRoutes: MetadataRoute.Sitemap = caseStudies.map((c) => ({
-    url: `${base}/case-studies/${c.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.7,
-  }));
-
-  const blogRoutes: MetadataRoute.Sitemap = posts.map((p) => ({
-    url: `${base}/blog/${p.slug}`,
-    lastModified: new Date(p.date),
-    changeFrequency: "monthly",
-    priority: 0.6,
-  }));
-
-  return [...staticRoutes, ...seoRoutes, ...caseRoutes, ...blogRoutes];
 }
