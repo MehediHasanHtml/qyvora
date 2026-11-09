@@ -46,7 +46,7 @@ export const serviceDivisions = [
     description:
       "SaaS platforms, MVPs, admin dashboards, CRMs and customer portals with clean architecture and integrations.",
     value: "Launch faster, replace spreadsheets and scale without rewrites.",
-    tech: ["TypeScript", "Node.js", "PostgreSQL", "Vue and Nuxt"],
+    tech: ["TypeScript", "Node.js", "PHP and Laravel", "PostgreSQL and MySQL", "Vue and Nuxt"],
     href: "/services#product",
     pages: productServices,
   },

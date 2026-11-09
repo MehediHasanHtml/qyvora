@@ -92,7 +92,7 @@ export const aiServices: LandingPage[] = [
       "Companies adding AI features to an existing platform",
       "Agencies that need a technical partner for AI builds",
     ],
-    tech: ["Next.js", "React", "TypeScript", "Node.js", "PostgreSQL", "Vector databases", "OpenAI API", "Anthropic Claude API", "Google Gemini API", "REST APIs"],
+    tech: ["Next.js", "React", "TypeScript", "Node.js", "Laravel", "PostgreSQL", "MySQL", "Vector databases", "OpenAI API", "Anthropic Claude API", "Google Gemini API", "REST APIs"],
     process: [
       { title: "Define the job", body: "One workflow, measured today, with examples of good and bad output." },
       { title: "Prototype fast", body: "A working prototype on real data within the first weeks to prove the approach." },
@@ -146,7 +146,7 @@ export const aiServices: LandingPage[] = [
       "Funded startups that need a production build quickly",
       "Existing SaaS companies launching an AI product line",
     ],
-    tech: ["Next.js", "React", "TypeScript", "Node.js", "PostgreSQL", "Stripe", "OpenAI API", "Anthropic Claude API", "Background job queues", "Vercel"],
+    tech: ["Next.js", "React", "TypeScript", "Node.js", "Laravel", "PostgreSQL", "MySQL", "Stripe", "OpenAI API", "Anthropic Claude API", "Background job queues", "Vercel"],
     process: [
       { title: "Shape the MVP", body: "We cut the idea down to the smallest product someone would pay for." },
       { title: "Design the core flow", body: "Onboarding to first value in as few steps as possible." },
@@ -154,7 +154,7 @@ export const aiServices: LandingPage[] = [
       { title: "Launch and iterate", body: "Billing live, analytics in place, and a roadmap shaped by real usage." },
     ],
     faqs: [
-      { q: "Do you build the whole SaaS or only the frontend?", a: "Both are possible. We are strongest on product design, frontend and the AI layer, and we build the backend with Node.js and PostgreSQL. If you already have a backend team, we work alongside them through agreed APIs." },
+      { q: "Do you build the whole SaaS or only the frontend?", a: "Both are possible. We are strongest on product design, frontend and the AI layer, and we build the backend with Node.js and PostgreSQL or PHP, Laravel and MySQL. If you already have a backend team, we work alongside them through agreed APIs." },
       { q: "How do you handle AI costs in pricing?", a: "We measure model cost per action during the prototype stage, then design plans with limits or credits that keep healthy margins. Usage is tracked per account so you can adjust pricing with real data." },
       { q: "Can we start with a prototype for investors?", a: "Yes. A clickable or working prototype is often the best first step. We build it so the useful parts can be kept when the production version starts." },
       { q: "Who owns the code?", a: "You do. The code lives in your repository and your accounts from the start, including hosting, database and AI provider accounts." },

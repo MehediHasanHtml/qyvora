@@ -20,7 +20,7 @@ export const siteConfig = {
     name: "Qyvora Studio Team",
     experienceYears: 8,
     summary:
-      "The Qyvora Studio team designs and engineers production websites, web applications and SaaS products with Next.js, React, Vue and modern AI tooling, for clients worldwide.",
+      "The Qyvora Studio team designs and engineers production websites, web applications and SaaS products with Next.js, React, Vue, PHP, Laravel and modern AI tooling, for clients worldwide.",
   },
   base: {
     city: "Dhaka",

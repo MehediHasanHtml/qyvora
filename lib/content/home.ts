@@ -35,7 +35,7 @@ export const homeFaqs: Faq[] = [
   },
   {
     q: "What technologies do you use?",
-    a: "Our main stack is Next.js, React, TypeScript and Tailwind CSS, with Node.js and PostgreSQL on the backend. We also work with Vue 3 and Nuxt. For AI we use the OpenAI, Anthropic Claude and Google Gemini APIs, and we usually deploy on Vercel.",
+    a: "Our main stack is Next.js, React, TypeScript and Tailwind CSS, with Node.js and PostgreSQL or PHP, Laravel and MySQL on the backend. We also work with Vue 3 and Nuxt. For AI we use the OpenAI, Anthropic Claude and Google Gemini APIs, and we usually deploy on Vercel.",
   },
   {
     q: "How long does a project take?",

@@ -24,7 +24,7 @@ const capabilities = [
   { Icon: Bot, title: "AI development", body: "AI powered websites, chatbots, agents and automations connected to your real data and tools." },
   { Icon: LayoutTemplate, title: "Website development", body: "Fast, search friendly business, startup and landing page websites with original design." },
   { Icon: Layers, title: "SaaS and applications", body: "SaaS platforms, MVPs, dashboards and customer portals built on a clean, typed codebase." },
-  { Icon: Code2, title: "Frontend engineering", body: "Next.js, React, Vue and Nuxt interfaces with consistent design systems and strong performance." },
+  { Icon: Code2, title: "Full stack engineering", body: "Next.js, React, Vue and Nuxt interfaces on Node.js or PHP and Laravel backends, with PostgreSQL or MySQL databases." },
 ];
 
 const timeline = [
@@ -88,7 +88,7 @@ export default function AboutPage() {
                   ["Experience", `${siteConfig.team.experienceYears}+ years in production web development`],
                   ["Live projects", `${liveProjects} you can open and inspect today`],
                   ["Based in", `${siteConfig.base.city}, ${siteConfig.base.country}`],
-                  ["Core stack", "Next.js, React, TypeScript, Vue, Nuxt, Tailwind CSS, Node.js"],
+                  ["Core stack", "Next.js, React, TypeScript, Vue, Nuxt, Tailwind CSS, Node.js, PHP, Laravel, MySQL"],
                 ].map(([k, v]) => (
                   <div key={k} className="bg-surface p-5">
                     <dt className="eyebrow">{k}</dt>

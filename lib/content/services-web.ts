@@ -37,7 +37,7 @@ export const webServices: LandingPage[] = [
       "Companies planning to add features over time",
       "Teams that want a site they can update themselves",
     ],
-    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Headless CMS", "Vercel", "Google Search Console"],
+    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Headless CMS", "PHP and Laravel", "MySQL", "Vercel", "Google Search Console"],
     process: [
       { title: "Discovery", body: "Goals, audience, competitors and the content you already have." },
       { title: "Structure and design", body: "Sitemap, wireframes and visual design for key pages." },

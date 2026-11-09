@@ -37,7 +37,7 @@ export const productServices: LandingPage[] = [
       "Businesses with a process no software fits",
       "Teams replacing a slow legacy internal tool",
     ],
-    tech: ["Next.js", "React", "Vue 3", "Nuxt", "TypeScript", "Node.js", "PostgreSQL", "REST APIs", "Tailwind CSS"],
+    tech: ["Next.js", "React", "Vue 3", "Nuxt", "TypeScript", "Node.js", "PHP", "Laravel", "PostgreSQL", "MySQL", "REST APIs", "Tailwind CSS"],
     process: [
       { title: "Process mapping", body: "We document how work flows today and where it breaks." },
       { title: "Interface design", body: "Screens and flows tested with the people who will use them." },
@@ -91,7 +91,7 @@ export const productServices: LandingPage[] = [
       "SaaS teams that need extra frontend capacity",
       "Products moving from MVP to a scalable platform",
     ],
-    tech: ["Next.js", "React", "TypeScript", "Node.js", "PostgreSQL", "Stripe", "Tailwind CSS", "Vercel"],
+    tech: ["Next.js", "React", "TypeScript", "Node.js", "Laravel", "PostgreSQL", "MySQL", "Stripe", "Tailwind CSS", "Vercel"],
     process: [
       { title: "Product scope", body: "Core workflow, plans, roles and the first release boundary." },
       { title: "UX and design system", body: "Key flows designed and a component library set up." },
@@ -145,7 +145,7 @@ export const productServices: LandingPage[] = [
       "Teams testing a new product line",
       "Founders preparing for a fundraising round",
     ],
-    tech: ["Next.js", "React", "TypeScript", "Node.js", "PostgreSQL", "Tailwind CSS", "Vercel"],
+    tech: ["Next.js", "React", "TypeScript", "Node.js", "Laravel", "PostgreSQL", "MySQL", "Tailwind CSS", "Vercel"],
     process: [
       { title: "Define", body: "Problem, user, success metric and the smallest useful scope." },
       { title: "Design", body: "Simple screens for the core journey." },
